@@ -43,6 +43,8 @@
 	<button id="evts_button">select node with id 1</button> <em>either click the button or a node in the tree</em>
 	<div id="evts" class="demo"></div>
 	
+	<h1>sample1</h1>
+	<div id="sample1" class="demo"></div>
 	
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
@@ -143,6 +145,40 @@
 				]
 			}
 		});
+	
+	// interaction and events
+	$('#evts_button').on("click", function () {
+		var instance = $('#evts').jstree(true);
+		instance.deselect_all();
+		instance.select_node('1');
+	});
+	$('#sample1')
+		.on("changed.jstree", function (e, data) {
+		    var i, j, r = [];
+		    for(i = 0, j = data.selected.length; i < j; i++) {
+// 		      r.push(data.instance.get_node(data.selected[i]).text);
+// 		      r.push(data.instance.get_node(data.selected[i]).id);
+		      r.push(data.instance.get_node(data.selected[i]).parent);
+		    }
+		    $('#event_result').html('Selected: ' + r.join(', '));
+		})
+		.jstree({
+			'core' : {
+				'multiple' : false,
+				'data' : [
+			       { "id" : "ajson1", "parent" : "#", "text" : "Simple root node", icon: "//jstree.com/tree-icon.png" },
+			       { "id" : "ajson11", "parent" : "#", "text" : "Simple root node", icon: "glyphicon glyphicon-leaf" },
+			       { "id" : "ajson12", "parent" : "#", "text" : "Simple root node", icon: "jstree-file" },
+			       { "id" : "ajson2", "parent" : "#", "text" : "Root node 2", state: {opened: false} },
+			       { "id" : "ajson3", "parent" : "ajson2", "text" : "Child 1" },
+			       { "id" : "ajson4", "parent" : "ajson2", "text" : "Child 2" },
+			       { "id" : "ajson5", "parent" : "#", "text" : "Root node 2" },
+			       { "id" : "ajson6", "parent" : "#", "text" : "Root node 2" },
+			       { "id" : "ajson7", "parent" : "#", "text" : "Root node 2" },
+			    ]				
+			}
+		});
+	
 	</script>
 </body>
 </html>
